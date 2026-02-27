@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AHAFEST 2026 - Into The Jungle Adventure</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Poppins', 'sans-serif'],
+          },
+          colors: {
+            primary: '#064e3b', // emerald-900
+            secondary: '#065f46', // emerald-800
+            accent: '#f59e0b', // amber-500
+            accentHover: '#d97706', // amber-600
+            dark: '#022c22', // emerald-950
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      overflow-x: hidden;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .card-hover {
+      transition: all 0.3s ease;
+    }
+
+    .card-hover:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .nav-link {
+      position: relative;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -4px;
+      left: 0;
+      background-color: #f59e0b;
+      transition: width 0.3s ease;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-left: 30px;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, #f59e0b, #065f46);
+    }
+
+    .timeline-item::after {
+      content: '';
+      position: absolute;
+      left: -6px;
+      top: 24px;
+      width: 14px;
+      height: 14px;
+      background: #f59e0b;
+      border-radius: 50%;
+      border: 3px solid #064e3b;
+    }
+
+    .animate-float {
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0px);
+      }
+
+      50% {
+        transform: translateY(-20px);
+      }
+    }
+
+    .scroll-reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s ease;
+    }
+
+    .scroll-reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Artistic Background Canvas */
+    #canvas-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    /* Jungle Vines CSS */
+    .vine {
+      position: fixed;
+      width: 40px;
+      height: 100vh;
+      background-image: url("data:image/svg+xml,%3Csvg width='40' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 0 Q 30 50 20 100 T 20 200' stroke='%23065f46' stroke-width='2' fill='none' opacity='0.4'/%3E%3Cpath d='M20 20 Q 10 70 20 120' stroke='%23065f46' stroke-width='2' fill='none' opacity='0.3'/%3E%3C/svg%3E");
+      background-repeat: repeat-y;
+      z-index: -1;
+      pointer-events: none;
+    }
+    
+    .vine-left { left: 0; }
+    .vine-right { right: 0; transform: scaleX(-1); }
+
+  </style>
+</head>
+
+<body class="bg-primary text-white font-sans antialiased">
+
+  <!-- Artistic Background Elements -->
+  <div id="canvas-container">
+    <canvas id="leafCanvas"></canvas>
+  </div>
+  <div class="vine vine-left"></div>
+  <div class="vine vine-right"></div>
+
+  <!-- Navigation -->
+  <nav class="fixed w-full z-50 bg-primary/95 backdrop-blur-md border-b border-emerald-800 transition-all duration-300" id="navbar">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-20">
+        <!-- Logo -->
+        <div class="flex items-center space-x-3 cursor-pointer" onclick="scrollToSection('home')">
+          <div class="w-10 h-10 bg-accent rounded-lg flex items-center justify-center">
+            <i class="fas fa-tree text-primary text-xl"></i>
+          </div>
+          <span class="text-2xl font-bold text-accent">AHAFEST 2026</span>
+        </div>
+
+        <!-- Desktop Menu -->
+        <div class="hidden md:flex items-center space-x-8">
+          <button onclick="scrollToSection('home')" class="nav-link text-white hover:text-accent transition-colors font-medium">Home</button>
+          <button onclick="scrollToSection('about')" class="nav-link text-white hover:text-accent transition-colors font-medium">About</button>
+          <button onclick="scrollToSection('mascots')" class="nav-link text-white hover:text-accent transition-colors font-medium">Mascots</button>
+          <button onclick="scrollToSection('competitions')" class="nav-link text-white hover:text-accent transition-colors font-medium">Competitions</button>
+          <button onclick="scrollToSection('guest-star')" class="nav-link text-white hover:text-accent transition-colors font-medium">Guest Star</button>
+          <button onclick="scrollToSection('schedule')" class="nav-link text-white hover:text-accent transition-colors font-medium">Schedule</button>
+          <button onclick="scrollToSection('register')" class="bg-accent hover:bg-accentHover text-primary font-bold py-2 px-6 rounded-full transition-all transform hover:scale-105">
+            Register Now
+          </button>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button class="md:hidden text-white text-2xl" onclick="toggleMobileMenu()">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="hidden md:hidden bg-secondary border-t border-emerald-700">
+      <div class="px-4 py-4 space-y-3">
+        <button onclick="scrollToSection('home')" class="block w-full text-left py-2 text-white hover:text-accent">Home</button>
+        <button onclick="scrollToSection('about')" class="block w-full text-left py-2 text-white hover:text-accent">About</button>
+        <button onclick="scrollToSection('mascots')" class="block w-full text-left py-2 text-white hover:text-accent">Mascots</button>
+        <button onclick="scrollToSection('competitions')" class="block w-full text-left py-2 text-white hover:text-accent">Competitions</button>
+        <button onclick="scrollToSection('guest-star')" class="block w-full text-left py-2 text-white hover:text-accent">Guest Star</button>
+        <button onclick="scrollToSection('schedule')" class="block w-full text-left py-2 text-white hover:text-accent">Schedule</button>
+        <button onclick="scrollToSection('register')" class="block w-full text-left py-2 text-accent font-bold">Register Now</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section id="home" class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+    <!-- Background Elements -->
+    <div class="absolute inset-0 bg-gradient-to-b from-primary via-secondary to-primary opacity-90"></div>
+    
+    <!-- Animated Circles -->
+    <div class="absolute top-1/4 left-10 w-32 h-32 bg-accent/20 rounded-full blur-3xl animate-float"></div>
+    <div class="absolute bottom-1/4 right-10 w-48 h-48 bg-emerald-500/20 rounded-full blur-3xl animate-float" style="animation-delay: 2s;"></div>
+
+    <div class="relative z-10 text-center px-4 max-w-5xl mx-auto">
+      <div class="mb-6 inline-block animate-float">
+        <span class="bg-accent/20 text-accent border border-accent/50 px-4 py-1 rounded-full text-sm font-semibold tracking-wider uppercase">
+          Festival Tahunan Al-Hamidiyah
+        </span>
+      </div>
+      <h1 class="text-5xl md:text-7xl font-bold mb-4 gradient-text">
+        AHAFEST 2026
+      </h1>
+      <h2 class="text-2xl md:text-4xl font-semibold mb-6 text-emerald-100">
+        Into The Jungle Adventure
+      </h2>
+      <p class="text-lg md:text-xl text-emerald-200 mb-10 max-w-2xl mx-auto">
+        Bersatu dalam Keberagaman, Berkompetisi untuk Kemanusiaan
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <button onclick="scrollToSection('register')" class="bg-accent hover:bg-accentHover text-primary font-bold py-4 px-8 rounded-full transition-all transform hover:scale-105 flex items-center justify-center gap-2">
+          <i class="fas fa-ticket-alt"></i>
+          Daftar Sekarang
+        </button>
+        <button onclick="scrollToSection('about')" class="border-2 border-accent text-accent hover:bg-accent hover:text-primary font-bold py-4 px-8 rounded-full transition-all flex items-center justify-center gap-2">
+          <i class="fas fa-info-circle"></i>
+          Pelajari Lebih
+        </button>
+      </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+      <i class="fas fa-chevron-down text-accent text-2xl"></i>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="py-20 px-4 relative">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16 scroll-reveal">
+        <h2 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">Tentang AHAFEST 2026</h2>
+        <div class="w-24 h-1 bg-accent mx-auto rounded-full mb-6"></div>
+        <p class="text-emerald-200 text-lg max-w-3xl mx-auto leading-relaxed">
+          AHAFEST adalah festival tahunan yang diselenggarakan oleh Pondok Pesantren Al-Hamidiyah,
+          menggabungkan kompetisi berkualitas dengan semangat kebersamaan dan pelayanan kepada masyarakat.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8">
+        <!-- Card 1 -->
+        <div class="bg-secondary/50 border border-emerald-700 rounded-2xl p-8 text-center card-hover scroll-reveal backdrop-blur-sm">
+          <div class="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-6">
+            <i class="fas fa-trophy text-accent text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-bold text-accent mb-4">Kompetisi Berkualitas</h3>
+          <p class="text-emerald-200 text-sm leading-relaxed">
+            Berbagai lomba menarik yang menguji kemampuan olahraga, intelektual, seni, dan spiritualitas
+          </p>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="bg-secondary/50 border border-emerald-700 rounded-2xl p-8 text-center card-hover scroll-reveal backdrop-blur-sm" style="transition-delay: 0.1s;">
+          <div class="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-6">
+            <i class="fas fa-users text-accent text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-bold text-accent mb-4">Kebersamaan</h3>
+          <p class="text-emerald-200 text-sm leading-relaxed">
+            Mempererat tali silaturahmi dan membangun komunitas yang solid melalui berbagai kegiatan
+          </p>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="bg-secondary/50 border border-emerald-700 rounded-2xl p-8 text-center card-hover scroll-reveal backdrop-blur-sm" style="transition-delay: 0.2s;">
+          <div class="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-6">
+            <i class="fas fa-heart text-accent text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-bold text-accent mb-4">Pelayanan Sosial</h3>
+          <p class="text-emerald-200 text-sm leading-relaxed">
+            Berkontribusi untuk masyarakat dengan menyalurkan hasil festival untuk kegiatan sosial
+          </p>
+        </div>
+      </div>
+
+      <!-- Theme Box -->
+      <div class="mt-16 bg-gradient-to-r from-secondary to-primary border border-emerald-600 rounded-2xl p-8 md:p-12 scroll-reveal backdrop-blur-sm">
+        <div class="flex flex-col md:flex-row items-center gap-8">
+          <div class="flex-1">
+            <h3 class="text-2xl font-bold text-accent mb-4">Tema: Hutan Rimba</h3>
+            <p class="text-emerald-200 leading-relaxed">
+              Tahun ini, AHAFEST mengambil tema "Into The Jungle Adventure" yang melambangkan petualangan,
+              keberanian, dan keberagaman. Seperti hutan yang penuh dengan kehidupan beragam,
+              AHAFEST 2026 merayakan keunikan setiap peserta dalam harmoni yang indah.
+            </p>
+          </div>
+          <div class="w-32 h-32 bg-accent/20 rounded-full flex items-center justify-center">
+            <i class="fas fa-tree text-6xl text-accent"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mascots Section -->
+  <section id="mascots" class="py-20 px-4 bg-secondary/30 relative">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16 scroll-reveal">
+        <h2 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">Maskot AHAFEST 2026</h2>
+        <div class="w-24 h-1 bg-accent mx-auto rounded-full mb-6"></div>
+        <p class="text-emerald-200 text-lg">Bertemu dengan sahabat-sahabat petualangan hutan kita!</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8">
+        <!-- Bruno -->
+        <div class="bg-primary border border-emerald-700 rounded-2xl overflow-hidden card-hover scroll-reveal backdrop-blur-sm">
+          <div class="h-64 overflow-hidden relative group">
+            <img src="https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?w=400&h=400&fit=crop" alt="Bruno si Beruang" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+            <div class="absolute inset-0 bg-gradient-to-t from-primary to-transparent opacity-60"></div>
+          </div>
+          <div class="p-6 text-center">
+            <h3 class="text-xl font-bold text-accent mb-3">Bruno si Beruang</h3>
+            <p class="text-emerald-200 text-sm leading-relaxed">
+              Kuat, pemberani, dan pelindung. Bruno melambangkan kekuatan dan keberanian dalam menghadapi tantangan.
+            </p>
+          </div>
+        </div>
+
+        <!-- Tuki -->
+        <div class="bg-primary border border-emerald-700 rounded-2xl overflow-hidden card-hover scroll-reveal backdrop-blur-sm" style="transition-delay: 0.1s;">
+          <div class="h-64 overflow-hidden relative group">
+            <img src="https://images.unsplash.com/photo-1552728089-57bdde30beb8?w=400&h=400&fit=crop" alt="Tuki si Tukan" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+            <div class="absolute inset-0 bg-gradient-to-t from-primary to-transparent opacity-60"></div>
+          </div>
+          <div class="p-6 text-center">
+            <h3 class="text-xl font-bold text-accent mb-3">Tuki si Tukan</h3>
+            <p class="text-emerald-200 text-sm leading-relaxed">
+              Berwarna-warni dan ceria. Tuki melambangkan keberagaman dan keindahan dalam perbedaan.
+            </p>
+          </div>
+        </div>
+
+        <!-- Kala -->
+        <div class="bg-primary border border-emerald-700 rounded-2xl overflow-hidden card-hover scroll-reveal backdrop-blur-sm" style="transition-delay: 0.2s;">
+          <div class="h-64 overflow-hidden relative group">
+            <img src="https://images.unsplash.com/photo-1540573133985-87b6da6d54a9?w=400&h=400&fit=crop" alt="Kala si Koala" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+            <div class="absolute inset-0 bg-gradient-to-t from-primary to-transparent opacity-60"></div>
+          </div>
+          <div class="p-6 text-center">
+            <h3 class="text-xl font-bold text-accent mb-3">Kala si Koala</h3>
+            <p class="text-emerald-200 text-sm leading-relaxed">
+              Tenang dan bijaksana. Kala melambangkan kedamaian dan kebijaksanaan dalam setiap tindakan.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Competitions Section -->
+  <section id="competitions" class="py-20 px-4 relative">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16 scroll-reveal">
+        <h2 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">Kompetisi</h2>
+        <div class="w-24 h-1 bg-accent mx-auto rounded-full mb-6"></div>
+        <p class="text-emerald-200 text-lg">Tunjukkan bakatmu dalam berbagai kategori kompetisi yang menarik!</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Futsal -->
+        <div class="bg-secondary/50 border border-emerald-700 rounded-2xl overflow-hidden card-hover scroll-reveal backdrop-blur-sm">
+          <div class="h-48 overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=400&h=300&fit=crop" alt="Futsal" class="w-full h-full object-cover">
+          </div>
+          <div class="p-6">
+            <span class="inline-block bg-emerald-800 text-accent text-xs font-semibold px-3 py-1 rounded-full mb-3">Olahraga</span>
+            <h3 class="text-xl font-bold text-accent mb-2">Futsal</h3>
+            <p class="text-emerald-200 text-sm mb-4">Turnamen futsal antar tim dengan hadiah menarik</p>
+            <div class="flex gap-2">
+              <a href="https://forms.gle/MBpKGYnmRP24FLUz7" target="_blank" class="flex-1 bg-accent hover:bg-accentHover text-primary font-semibold py-2 px-4 rounded-lg transition-colors text-sm flex items-center justify-center gap-2">
+                <i class="fas fa-user-plus"></i> Daftar
+              </a>
+              <a href="https://drive.google.com/file/d/10egJk0PRxnnmK6o381SO1Y_bleNa5uzV/view?usp=sharing" target="_blank" class="flex-1 border border-emerald-600 hover:bg-emerald-800 text-white font-semibold py-2 px-4 rounded-lg transition-colors text-sm flex items-center justify-center gap-2">
+                <i class="fas fa-book"></i> Guidebook
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Catur -->
+        <div class="bg-secondary/50 border border-emerald-700 rounded-2xl overflow-hidden card-hover scroll-reveal backdrop-blur-sm" style="transition-delay: 0.1s;">
+          <div class="h-48 overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1529699211952-734e80c4d42b?w=400&h=300&fit=crop" alt="Catur" class="w-full h-full object-cover">
+          </div>
+          <div class="p-6">
+            <span class="inline-block bg-emerald-800 text-accent text-xs font-semibold px-3 py-1 rounded-full mb-3">Intelektual</span>
+            <h3 class="text-xl font-bold text-accent mb-2">Catur</h3>
+            <p class="text-emerald-200 text-sm mb-4">Kompetisi catur yang menguji strategi dan kecerdasan</p>
+            <div class="flex gap-2">
+              <a href="https://forms.gle/dbZJAaFKwCzQa7p8A" target="_blank" class="flex-1 bg-accent hover:bg-accentHover text-primary font-semibold py-2 px-4 rounded-lg transition-colors text-sm flex items-center justify-center gap-2">
+                <i class="fas fa-user-plus"></i> Daftar
+              </a>
+              <a href="https://drive.google.com/file/d/10egJk0PRxnnmK6o381SO1Y_bleNa5uzV/view?usp=sharing" target="_blank" class="flex-1 border border-emerald-600 hover:bg-emerald-800 text-white font-semibold py-2 px-4 rounded-lg transition-colors text-sm flex items-center justify-center gap-2">
+                <i class="fas fa-book"></i> Guidebook
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Da'i -->
+        <div class="bg-secondary/50 border border-emerald-700 rounded-2xl overflow-hidden card-hover scroll-reveal backdrop-blur-sm" style="transition-delay: 0.2s;">
+          <div class="h-48 overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1585036156171-384164a8c675?w=400&h=300&fit=crop" alt="Da'i" class="w-full h-full object-cover">
+          </div>
+          <div class="p-6">
+            <span class="inline-block bg-emerald-800 text-accent text-xs font-semibold px-3 py-1 rounded-full mb-3">Spiritual</span>
+            <h3 class="text-xl font-bold text-accent mb-2">Da'i</h3>
+            <p class="text-emerald-200 text-sm mb-4">Lomba dakwah dan ceramah keagamaan</p>
+            <div class="flex gap-2">
+              <a href="https://forms.gle/ay5xKz2EUZaMZsHb7" target="_blank" class="flex-1 bg-accent hover:bg-accentHover text-primary font-semibold py-2 px-4 rounded-lg transition-colors text-sm flex items-center justify-center gap-2">
+                <i class="fas fa-user-plus"></i> Daftar
+              </a>
+              <a href="https://drive.google.com/file/d/10egJk0PRxnnmK6o381SO1Y_bleNa5uzV/view?usp=sharing" target="_blank" class="flex-1 border border-emerald-600 hover:bg-emerald-800 text-white font-semibold py-2 px-4 rounded-lg transition-colors text-sm flex items-center justify-center gap-2">
+                <i class="fas fa-book"></i> Guidebook
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ratoe Jaroh -->
+        <div class="bg-secondary/50 border border-emerald-700 rounded-2xl overflow-hidden card-hover scroll-reveal backdrop-blur-sm">
+          <div class="h-48 overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1514525253440-b393452e8d26?w=400&h=300&fit=crop" alt="Ratoe Jaroh" class="w-full h-full object-cover">
+          </div>
+          <div class="p-6">
+            <span class="inline-block bg-emerald-800 text-accent text-xs font-semibold px-3 py-1 rounded-full mb-3">Seni</span>
+            <h3 class="text-xl font-bold text-accent mb-2">Ratoe Jaroh</h3>
+            <p class="text-emerald-200 text-sm mb-4">Tarian tradisional Aceh yang memukau</p>
+            <div class="flex gap-2">
+              <a href="https://forms.gle/LKqkYK8pMi9MoRCt7" target="_blank" class="flex-1 bg-accent hover:bg-accentHover text-primary font-semibold py-2 px-4 rounded-lg transition-colors text-sm flex items-center justify-center gap-2">
+                <i class="fas fa-user-plus"></i> Daftar
+              </a>
+              <a href="https://drive.google.com/file/d/10egJk0PRxnnmK6o381SO1Y_bleNa5uzV/view?usp=sharing" target="_blank" class="flex-1 border border-emerald-600 hover:bg-emerald-800 text-white font-semibold py-2 px-4 rounded-lg transition-colors text-sm flex items-center justify-center gap-2">
+                <i class="fas fa-book"></i> Guidebook
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Digital Literasi -->
+        <div class="bg-secondary/50 border border-emerald-700 rounded-2xl overflow-hidden card-hover scroll-reveal backdrop-blur-sm" style="transition-delay: 0.1s;">
+          <div class="h-48 overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=300&fit=crop" alt="Digital Literasi" class="w-full h-full object-cover">
+          </div>
+          <div class="p-6">
+            <span class="inline-block bg-emerald-800 text-accent text-xs font-semibold px-3 py-1 rounded-full mb-3">Teknologi</span>
+            <h3 class="text-xl font-bold text-accent mb-2">Digital Literasi</h3>
+            <p class="text-emerald-200 text-sm mb-4">Kompetisi desain dan konten digital kreatif</p>
+            <div class="flex gap-2">
+              <button onclick="openModal('Digital Literasi')" class="flex-1 bg-accent hover:bg-accentHover text-primary font-semibold py-2 px-4 rounded-lg transition-colors text-sm flex items-center justify-center gap-2">
+                <i class="fas fa-user-plus"></i> Daftar
+              </button>
+              <a href="https://drive.google.com/file/d/10egJk0PRxnnmK6o381SO1Y_bleNa5uzV/view?usp=sharing" target="_blank" class="flex-1 border border-emerald-600 hover:bg-emerald-800 text-white font-semibold py-2 px-4 rounded-lg transition-colors text-sm flex items-center justify-center gap-2">
+                <i class="fas fa-book"></i> Guidebook
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Prize Info -->
+      <div class="mt-16 text-center scroll-reveal">
+        <p class="text-emerald-300 mb-2">Total Hadiah lebih dari</p>
+        <h3 class="text-5xl md:text-6xl font-bold text-accent mb-2">Rp 25.000.000</h3>
+        <p class="text-emerald-300">untuk para juara!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Guest Star Section -->
+  <section id="guest-star" class="py-20 px-4 bg-secondary/30 relative">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-16 scroll-reveal">
+        <h2 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">Guest Star</h2>
+        <div class="w-24 h-1 bg-accent mx-auto rounded-full mb-6"></div>
+        <p class="text-emerald-200 text-lg">Jangan lewatkan penampilan spesial dari bintang tamu istimewa kita!</p>
+      </div>
+
+      <div class="bg-secondary border border-emerald-700 rounded-3xl overflow-hidden shadow-2xl scroll-reveal backdrop-blur-sm">
+        <div class="grid md:grid-cols-2">
+          <div class="h-64 md:h-auto relative">
+            <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=600&h=600&fit=crop" alt="Opick" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-r from-transparent to-secondary/90 md:bg-gradient-to-l"></div>
+          </div>
+          <div class="p-8 md:p-12 flex flex-col justify-center">
+            <span class="inline-flex items-center gap-2 bg-accent/20 text-accent px-4 py-2 rounded-full text-sm font-semibold w-fit mb-4">
+              <i class="fas fa-music"></i> Artist
+            </span>
+            <h3 class="text-4xl font-bold text-accent mb-4">OPICK</h3>
+            <p class="text-emerald-200 mb-6 leading-relaxed">
+              Seniman berbakat yang akan menghibur dengan penampilan luar biasa di AHAFEST 2026.
+              Bersiaplah untuk malam yang tak terlupakan!
+            </p>
+            <div class="flex gap-4 mb-6">
+              <a href="#" class="w-10 h-10 bg-emerald-800 hover:bg-accent hover:text-primary rounded-full flex items-center justify-center transition-all">
+                <i class="fab fa-instagram"></i>
+              </a>
+              <a href="#" class="w-10 h-10 bg-emerald-800 hover:bg-accent hover:text-primary rounded-full flex items-center justify-center transition-all">
+                <i class="fab fa-youtube"></i>
+              </a>
+            </div>
+            <button onclick="openTicketModal()" class="bg-accent hover:bg-accentHover text-primary font-bold py-3 px-8 rounded-full transition-all transform hover:scale-105 flex items-center justify-center gap-2">
+              <i class="fas fa-ticket-alt"></i>
+              Dapatkan Tiket
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Concert Info -->
+      <div class="mt-8 bg-primary border border-emerald-700 rounded-2xl p-8 text-center scroll-reveal backdrop-blur-sm">
+        <p class="text-emerald-300 mb-2">Konser akan diadakan pada</p>
+        <h4 class="text-3xl font-bold text-accent mb-2">15 September 2026</h4>
+        <p class="text-emerald-300 flex items-center justify-center gap-2">
+          <i class="fas fa-map-marker-alt"></i>
+          Lapangan Utama Pondok Pesantren Al-Hamidiyah
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Merchant Section -->
+  <section id="merchant" class="py-20 px-4 relative">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16 scroll-reveal">
+        <h2 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">Official Merchandise</h2>
+        <div class="w-24 h-1 bg-accent mx-auto rounded-full mb-6"></div>
+        <p class="text-emerald-200 text-lg">Dukung petualanganmu dengan gear eksklusif AHAFEST 2026!</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+        <!-- Merchant Card 1: T-Shirt -->
+        <div class="bg-secondary/50 border border-emerald-700 rounded-2xl overflow-hidden card-hover scroll-reveal group backdrop-blur-sm">
+          <div class="h-64 overflow-hidden relative">
+            <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop" alt="Kaos AHAFEST" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+            <div class="absolute inset-0 bg-gradient-to-t from-primary to-transparent opacity-60"></div>
+            <div class="absolute top-4 right-4 bg-accent text-primary font-bold py-1 px-3 rounded-full text-sm shadow-lg">
+              Rp 70.000
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-accent mb-2">Kaos Lengan Pendek</h3>
+            <p class="text-emerald-200 text-sm mb-4">Design eksklusif "Into The Jungle", bahan cotton combed 30s.</p>
+            <a href="https://forms.gle/q2QGYGGnXDqHjBvv5" target="_blank" class="w-full block text-center bg-accent hover:bg-accentHover text-primary font-bold py-3 rounded-lg transition-all transform hover:scale-105 flex items-center justify-center gap-2">
+              <i class="fas fa-shopping-cart"></i> Beli Sekarang
+            </a>
+          </div>
+        </div>
+
+        <!-- Merchant Card 2: Long Sleeve -->
+        <div class="bg-secondary/50 border border-emerald-700 rounded-2xl overflow-hidden card-hover scroll-reveal group backdrop-blur-sm" style="transition-delay: 0.1s;">
+          <div class="h-64 overflow-hidden relative">
+            <img src="https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=400&h=400&fit=crop" alt="Kaos Lengan Panjang" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+            <div class="absolute inset-0 bg-gradient-to-t from-primary to-transparent opacity-60"></div>
+            <div class="absolute top-4 right-4 bg-accent text-primary font-bold py-1 px-3 rounded-full text-sm shadow-lg">
+              Rp 85.000
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-accent mb-2">Kaos Lengan Panjang</h3>
+            <p class="text-emerald-200 text-sm mb-4">Tetap stylish dan hangat di malam hari di rimba.</p>
+            <a href="https://forms.gle/q2QGYGGnXDqHjBvv5" target="_blank" class="w-full block text-center bg-accent hover:bg-accentHover text-primary font-bold py-3 rounded-lg transition-all transform hover:scale-105 flex items-center justify-center gap-2">
+              <i class="fas fa-shopping-cart"></i> Beli Sekarang
+            </a>
+          </div>
+        </div>
+
+        <!-- Merchant Card 3: Drawstring Bag -->
+        <div class="bg-secondary/50 border border-emerald-700 rounded-2xl overflow-hidden card-hover scroll-reveal group backdrop-blur-sm" style="transition-delay: 0.2s;">
+          <div class="h-64 overflow-hidden relative">
+            <img src="https://images.unsplash.com/photo-1597484662317-c931384b2d16?w=400&h=400&fit=crop" alt="Tas Handbag" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+            <div class="absolute inset-0 bg-gradient-to-t from-primary to-transparent opacity-60"></div>
+            <div class="absolute top-4 right-4 bg-accent text-primary font-bold py-1 px-3 rounded-full text-sm shadow-lg">
+              Rp 30.000
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-accent mb-2">Tas Serut Rimba</h3>
+            <p class="text-emerald-200 text-sm mb-4">Praktis membawa perlengkapan meditasi atau buku.</p>
+            <a href="https://forms.gle/q2QGYGGnXDqHjBvv5" target="_blank" class="w-full block text-center bg-accent hover:bg-accentHover text-primary font-bold py-3 rounded-lg transition-all transform hover:scale-105 flex items-center justify-center gap-2">
+              <i class="fas fa-shopping-cart"></i> Beli Sekarang
+            </a>
+          </div>
+        </div>
+
+        <!-- Merchant Card 4: Cap -->
+        <div class="bg-secondary/50 border border-emerald-700 rounded-2xl overflow-hidden card-hover scroll-reveal group backdrop-blur-sm">
+          <div class="h-64 overflow-hidden relative">
+            <img src="https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=400&h=400&fit=crop" alt="Topi" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+            <div class="absolute inset-0 bg-gradient-to-t from-primary to-transparent opacity-60"></div>
+            <div class="absolute top-4 right-4 bg-accent text-primary font-bold py-1 px-3 rounded-full text-sm shadow-lg">
+              Rp 40.000
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-accent mb-2">Topi Jungle</h3>
+            <p class="text-emerald-200 text-sm mb-4">Lindungi diri dari terik matahari saat futsal di siang hari.</p>
+            <a href="https://forms.gle/q2QGYGGnXDqHjBvv5" target="_blank" class="w-full block text-center bg-accent hover:bg-accentHover text-primary font-bold py-3 rounded-lg transition-all transform hover:scale-105 flex items-center justify-center gap-2">
+              <i class="fas fa-shopping-cart"></i> Beli Sekarang
+            </a>
+          </div>
+        </div>
+
+        <!-- Merchant Card 5: Hand Fan -->
+        <div class="bg-secondary/50 border border-emerald-700 rounded-2xl overflow-hidden card-hover scroll-reveal group backdrop-blur-sm" style="transition-delay: 0.1s;">
+          <div class="h-64 overflow-hidden relative">
+            <img src="https://images.unsplash.com/photo-1623944892391-d859f3809a60?w=400&h=400&fit=crop" alt="Kipas" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+            <div class="absolute inset-0 bg-gradient-to-t from-primary to-transparent opacity-60"></div>
+            <div class="absolute top-4 right-4 bg-accent text-primary font-bold py-1 px-3 rounded-full text-sm shadow-lg">
+              Rp 15.000
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-accent mb-2">Kipas Tangan</h3>
+            <p class="text-emerald-200 text-sm mb-4">Sejukkan suasana hati selama konser berlangsung.</p>
+            <a href="https://forms.gle/q2QGYGGnXDqHjBvv5" target="_blank" class="w-full block text-center bg-accent hover:bg-accentHover text-primary font-bold py-3 rounded-lg transition-all transform hover:scale-105 flex items-center justify-center gap-2">
+              <i class="fas fa-shopping-cart"></i> Beli Sekarang
+            </a>
+          </div>
+        </div>
+
+        <!-- Merchant Card 6: Keychain -->
+        <div class="bg-secondary/50 border border-emerald-700 rounded-2xl overflow-hidden card-hover scroll-reveal group backdrop-blur-sm" style="transition-delay: 0.2s;">
+          <div class="h-64 overflow-hidden relative">
+            <img src="https://images.unsplash.com/photo-1605218427368-35b0f996d1e6?w=400&h=400&fit=crop" alt="Gantungan Kunci" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+            <div class="absolute inset-0 bg-gradient-to-t from-primary to-transparent opacity-60"></div>
+            <div class="absolute top-4 right-4 bg-accent text-primary font-bold py-1 px-3 rounded-full text-sm shadow-lg">
+              Rp 10.000
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-accent mb-2">Gantungan Kunci</h3>
+            <p class="text-emerald-200 text-sm mb-4">Miniatur maskot Bruno & Tuki untuk kenang-kenangan.</p>
+            <a href="https://forms.gle/q2QGYGGnXDqHjBvv5" target="_blank" class="w-full block text-center bg-accent hover:bg-accentHover text-primary font-bold py-3 rounded-lg transition-all transform hover:scale-105 flex items-center justify-center gap-2">
+              <i class="fas fa-shopping-cart"></i> Beli Sekarang
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- More Merchant Button -->
+      <div class="mt-12 text-center scroll-reveal">
+        <a href="https://forms.gle/q2QGYGGnXDqHjBvv5" target="_blank" class="inline-flex items-center gap-2 bg-transparent border-2 border-accent text-accent hover:bg-accent hover:text-primary font-bold py-3 px-10 rounded-full transition-all transform hover:scale-105">
+          <span>Lihat Katalog Lengkap</span>
+          <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Schedule Section -->
+  <section id="schedule" class="py-20 px-4 bg-secondary/30 relative">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-16 scroll-reveal">
+        <h2 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">Jadwal Acara</h2>
+        <div class="w-24 h-1 bg-accent mx-auto rounded-full mb-6"></div>
+        <p class="text-emerald-200 text-lg">Catat tanggal pentingnya dan jangan sampai ketinggalan!</p>
+      </div>
+
+      <div class="space-y-6">
+        <!-- Item 1 -->
+        <div class="bg-secondary/50 border border-emerald-700 rounded-2xl p-6 flex flex-col md:flex-row gap-6 items-start md:items-center scroll-reveal backdrop-blur-sm">
+          <div class="bg-accent/20 border border-accent/50 rounded-xl p-4 text-center min-w-[140px]">
+            <i class="fas fa-calendar-alt text-accent text-2xl mb-2"></i>
+            <div class="text-accent font-bold">1 September 2026</div>
+          </div>
+          <div class="flex-1">
+            <h3 class="text-xl font-bold text-accent mb-2">Pembukaan Pendaftaran</h3>
+            <p class="text-emerald-200 text-sm mb-3">Pendaftaran dibuka untuk semua kategori kompetisi</p>
+            <div class="flex flex-wrap gap-4 text-sm text-emerald-300">
+              <span class="flex items-center gap-2"><i class="far fa-clock"></i> 08:00 WIB</span>
+              <span class="flex items-center gap-2"><i class="fas fa-globe"></i> Online</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="bg-secondary/50 border border-emerald-700 rounded-2xl p-6 flex flex-col md:flex-row gap-6 items-start md:items-center scroll-reveal backdrop-blur-sm">
+          <div class="bg-accent/20 border border-accent/50 rounded-xl p-4 text-center min-w-[140px]">
+            <i class="fas fa-calendar-alt text-accent text-2xl mb-2"></i>
+            <div class="text-accent font-bold">10 September 2026</div>
+          </div>
+          <div class="flex-1">
+            <h3 class="text-xl font-bold text-accent mb-2">Penutupan Pendaftaran</h3>
+            <p class="text-emerald-200 text-sm mb-3">Batas akhir pendaftaran semua kompetisi</p>
+            <div class="flex flex-wrap gap-4 text-sm text-emerald-300">
+              <span class="flex items-center gap-2"><i class="far fa-clock"></i> 23:59 WIB</span>
+              <span class="flex items-center gap-2"><i class="fas fa-globe"></i> Online</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="bg-secondary/50 border border-emerald-700 rounded-2xl p-6 flex flex-col md:flex-row gap-6 items-start md:items-center scroll-reveal backdrop-blur-sm">
+          <div class="bg-accent/20 border border-accent/50 rounded-xl p-4 text-center min-w-[140px]">
+            <i class="fas fa-calendar-alt text-accent text-2xl mb-2"></i>
+            <div class="text-accent font-bold">12 September 2026</div>
+          </div>
+          <div class="flex-1">
+            <h3 class="text-xl font-bold text-accent mb-2">Technical Meeting</h3>
+            <p class="text-emerald-200 text-sm mb-3">Pertemuan teknis untuk semua peserta</p>
+            <div class="flex flex-wrap gap-4 text-sm text-emerald-300">
+              <span class="flex items-center gap-2"><i class="far fa-clock"></i> 14:00 WIB</span>
+              <span class="flex items-center gap-2"><i class="fas fa-map-marker-alt"></i> Aula Al-Hamidiyah</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 4 -->
+        <div class="bg-secondary/50 border border-emerald-700 rounded-2xl p-6 flex flex-col md:flex-row gap-6 items-start md:items-center scroll-reveal backdrop-blur-sm">
+          <div class="bg-accent/20 border border-accent/50 rounded-xl p-4 text-center min-w-[140px]">
+            <i class="fas fa-calendar-alt text-accent text-2xl mb-2"></i>
+            <div class="text-accent font-bold">15 September 2026</div>
+          </div>
+          <div class="flex-1">
+            <h3 class="text-xl font-bold text-accent mb-2">Pembukaan AHAFEST 2026</h3>
+            <p class="text-emerald-200 text-sm mb-3">Upacara pembukaan dan penampilan guest star</p>
+            <div class="flex flex-wrap gap-4 text-sm text-emerald-300">
+              <span class="flex items-center gap-2"><i class="far fa-clock"></i> 08:00 WIB</span>
+              <span class="flex items-center gap-2"><i class="fas fa-map-marker-alt"></i> Lapangan Utama</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 5 -->
+        <div class="bg-secondary/50 border border-emerald-700 rounded-2xl p-6 flex flex-col md:flex-row gap-6 items-start md:items-center scroll-reveal backdrop-blur-sm">
+          <div class="bg-accent/20 border border-accent/50 rounded-xl p-4 text-center min-w-[140px]">
+            <i class="fas fa-calendar-alt text-accent text-2xl mb-2"></i>
+            <div class="text-accent font-bold text-sm">15-17 September 2026</div>
+          </div>
+          <div class="flex-1">
+            <h3 class="text-xl font-bold text-accent mb-2">Pelaksanaan Kompetisi</h3>
+            <p class="text-emerald-200 text-sm mb-3">Semua kategori kompetisi berlangsung</p>
+            <div class="flex flex-wrap gap-4 text-sm text-emerald-300">
+              <span class="flex items-center gap-2"><i class="far fa-clock"></i> 08:00 - 18:00 WIB</span>
+              <span class="flex items-center gap-2"><i class="fas fa-map-marker-alt"></i> Berbagai Lokasi</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 6 -->
+        <div class="bg-secondary/50 border border-emerald-700 rounded-2xl p-6 flex flex-col md:flex-row gap-6 items-start md:items-center scroll-reveal backdrop-blur-sm">
+          <div class="bg-accent/20 border border-accent/50 rounded-xl p-4 text-center min-w-[140px]">
+            <i class="fas fa-calendar-alt text-accent text-2xl mb-2"></i>
+            <div class="text-accent font-bold">18 September 2026</div>
+          </div>
+          <div class="flex-1">
+            <h3 class="text-xl font-bold text-accent mb-2">Penutupan & Pengumuman Juara</h3>
+            <p class="text-emerald-200 text-sm mb-3">Upacara penutupan dan penyerahan hadiah</p>
+            <div class="flex flex-wrap gap-4 text-sm text-emerald-300">
+              <span class="flex items-center gap-2"><i class="far fa-clock"></i> 15:00 WIB</span>
+              <span class="flex items-center gap-2"><i class="fas fa-map-marker-alt"></i> Lapangan Utama</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Register Section -->
+  <section id="register" class="py-20 px-4 relative">
+    <div class="max-w-4xl mx-auto text-center scroll-reveal">
+      <h2 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">Siap Bergabung?</h2>
+      <p class="text-emerald-200 text-lg mb-8">Daftarkan dirimu sekarang dan jadilah bagian dari petualangan AHAFEST 2026!</p>
+      <button onclick="scrollToSection('competitions')" class="bg-accent hover:bg-accentHover text-primary font-bold py-4 px-12 rounded-full transition-all transform hover:scale-105 text-lg inline-flex items-center gap-3">
+        <i class="fas fa-rocket"></i>
+        Lihat Kompetisi
+      </button>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-dark border-t border-emerald-800 pt-16 pb-8 px-4 relative">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid md:grid-cols-3 gap-12 mb-12">
+        <!-- Brand -->
+        <div>
+          <div class="flex items-center space-x-3 mb-4">
+            <div class="w-10 h-10 bg-accent rounded-lg flex items-center justify-center">
+              <i class="fas fa-tree text-primary text-xl"></i>
+            </div>
+            <span class="text-2xl font-bold text-accent">AHAFEST 2026</span>
+          </div>
+          <p class="text-emerald-400 text-sm leading-relaxed mb-4">
+            Festival tahunan Pondok Pesantren Al-Hamidiyah yang menghadirkan kompetisi berkualitas dengan semangat kebersamaan dan pelayanan sosial.
+          </p>
+          <div class="flex gap-3">
+            <a href="#" class="w-10 h-10 bg-emerald-800 hover:bg-accent hover:text-primary rounded-full flex items-center justify-center transition-all text-emerald-300">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="#" class="w-10 h-10 bg-emerald-800 hover:bg-accent hover:text-primary rounded-full flex items-center justify-center transition-all text-emerald-300">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="#" class="w-10 h-10 bg-emerald-800 hover:bg-accent hover:text-primary rounded-full flex items-center justify-center transition-all text-emerald-300">
+              <i class="fab fa-twitter"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div>
+          <h4 class="text-accent font-bold text-lg mb-4">Quick Links</h4>
+          <ul class="space-y-2">
+            <li><button onclick="scrollToSection('about')" class="text-emerald-400 hover:text-accent transition-colors text-sm">Tentang</button></li>
+            <li><button onclick="scrollToSection('competitions')" class="text-emerald-400 hover:text-accent transition-colors text-sm">Kompetisi</button></li>
+            <li><button onclick="scrollToSection('schedule')" class="text-emerald-400 hover:text-accent transition-colors text-sm">Jadwal</button></li>
+            <li><button onclick="scrollToSection('guest-star')" class="text-emerald-400 hover:text-accent transition-colors text-sm">Guest Star</button></li>
+          </ul>
+        </div>
+
+        <!-- Contact -->
+        <div>
+          <h4 class="text-accent font-bold text-lg mb-4">Kontak</h4>
+          <ul class="space-y-3">
+            <li class="flex items-start gap-3 text-emerald-400 text-sm">
+              <i class="fas fa-map-marker-alt mt-1 text-accent"></i>
+              <button onclick="window.open('https://maps.app.goo.gl/Z7k2Wg9yE1MFj6Ni7', '_blank')" class="hover:text-accent transition-colors text-left">
+                Pondok Pesantren Al-Hamidiyah, Depok
+              </button>
+            </li>
+            <li class="flex items-center gap-3 text-emerald-400 text-sm">
+              <i class="fas fa-phone text-accent"></i>
+              <span>+62 812-3456-7890</span>
+            </li>
+            <li class="flex items-center gap-3 text-emerald-400 text-sm">
+              <i class="fas fa-envelope text-accent"></i>
+              <span>info@ahafest.com</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="border-t border-emerald-800 pt-8 text-center">
+        <p class="text-emerald-500 text-sm">© 2026 AHAFEST. All rights reserved. | Pondok Pesantren Al-Hamidiyah</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modal -->
+  <div id="modal" class="fixed inset-0 z-[60] hidden">
+    <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeModal()"></div>
+    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-md p-4">
+      <div class="bg-secondary border border-emerald-700 rounded-2xl p-6 relative">
+        <button onclick="closeModal()" class="absolute top-4 right-4 text-emerald-400 hover:text-accent">
+          <i class="fas fa-times text-xl"></i>
+        </button>
+        <h3 id="modalTitle" class="text-2xl font-bold text-accent mb-4">Pendaftaran</h3>
+        <p class="text-emerald-200 mb-6">Form pendaftaran untuk <span id="modalContent" class="font-semibold text-accent"></span> akan segera dibuka. Silakan kembali lagi nanti atau hubungi panitia untuk informasi lebih lanjut.</p>
+        <button onclick="closeModal()" class="w-full bg-accent hover:bg-accentHover text-primary font-bold py-3 rounded-lg transition-colors">
+          Mengerti
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ticket Modal -->
+  <div id="ticketModal" class="fixed inset-0 z-[60] hidden">
+    <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeTicketModal()"></div>
+    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-md p-4">
+      <div class="bg-secondary border border-emerald-700 rounded-2xl p-6 relative">
+        <button onclick="closeTicketModal()" class="absolute top-4 right-4 text-emerald-400 hover:text-accent">
+          <i class="fas fa-times text-xl"></i>
+        </button>
+        <div class="text-center">
+          <i class="fas fa-ticket-alt text-5xl text-accent mb-4"></i>
+          <h3 class="text-2xl font-bold text-accent mb-4">Dapatkan Tiket</h3>
+          <p class="text-emerald-200 mb-6">Penjualan tiket konser OPCIK akan dibuka segera. Nantikan informasi selanjutnya!</p>
+          <button onclick="closeTicketModal()" class="bg-accent hover:bg-accentHover text-primary font-bold py-3 px-8 rounded-full transition-colors">
+            Tutup
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Mobile Menu Toggle
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.toggle('hidden');
+    }
+    // Smooth Scroll to Section
+    function scrollToSection(sectionId) {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({
+          behavior: 'smooth'
+        });
+        // Close mobile menu if open
+        document.getElementById('mobileMenu').classList.add('hidden');
+      }
+    }
+    // Modal Functions
+    function openModal(title) {
+      document.getElementById('modalContent').textContent = title;
+      document.getElementById('modal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.add('hidden');
+    }
+
+    function openTicketModal() {
+      document.getElementById('ticketModal').classList.remove('hidden');
+    }
+
+    function closeTicketModal() {
+      document.getElementById('ticketModal').classList.add('hidden');
+    }
+    // Scroll Reveal Animation
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: "0px 0px -50px 0px"
+    };
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+        }
+      });
+    }, observerOptions);
+    document.querySelectorAll('.scroll-reveal').forEach((el) => observer.observe(el));
+    // Navbar Background on Scroll
+    window.addEventListener('scroll', () => {
+      const navbar = document.getElementById('navbar');
+      if (window.scrollY > 50) {
+        navbar.classList.add('shadow-lg');
+        navbar.classList.replace('bg-primary/95', 'bg-primary');
+      } else {
+        navbar.classList.remove('shadow-lg');
+        navbar.classList.replace('bg-primary', 'bg-primary/95');
+      }
+    });
+    // Close modal on escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeModal();
+        closeTicketModal();
+      }
+    });
+
+    // --- Artistic Background: Falling Leaves Animation ---
+    const canvas = document.getElementById('leafCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let width, height;
+    let leaves = [];
+
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener('resize', resize);
+    resize();
+
+    class Leaf {
+      constructor() {
+        this.init();
+      }
+
+      init() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * -height; // Start above screen
+        this.size = Math.random() * 15 + 10; // Size between 10 and 25
+        this.speedY = Math.random() * 1 + 0.5;
+        this.speedX = Math.random() * 1 - 0.5;
+        this.rotation = Math.random() * 360;
+        this.rotationSpeed = Math.random() * 2 - 1;
+        this.opacity = Math.random() * 0.5 + 0.2;
+        // Randomize leaf color (greens and ambers)
+        const colors = ['#065f46', '#047857', '#f59e0b', '#d97706']; 
+        this.color = colors[Math.floor(Math.random() * colors.length)];
+      }
+
+      update() {
+        this.y += this.speedY;
+        this.x += Math.sin(this.y * 0.01) + this.speedX;
+        this.rotation += this.rotationSpeed;
+
+        if (this.y > height) {
+          this.init();
+        }
+      }
+
+      draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.rotation * Math.PI / 180);
+        ctx.globalAlpha = this.opacity;
+        ctx.fillStyle = this.color;
+        
+        // Draw a simple leaf shape
+        ctx.beginPath();
+        ctx.ellipse(0, 0, this.size / 2, this.size, 0, 0, Math.PI * 2);
+        ctx.fill();
+        
+        ctx.restore();
+      }
+    }
+
+    // Create leaves
+    for (let i = 0; i < 50; i++) {
+      leaves.push(new Leaf());
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, width, height);
+      leaves.forEach(leaf => {
+        leaf.update();
+        leaf.draw();
+      });
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+
+  </script>
+</body>
+
+</html>
